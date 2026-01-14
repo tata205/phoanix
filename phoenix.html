@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phoenix Trader - Smart Trading Bot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #B8860B;
+            --primary-dark: #8B6914;
+            --secondary: #6b7280;
+            --light: #f9fafb;
+            --dark: #2C3E50;
+            --black: #1a1a2e;
+            --gradient: linear-gradient(135deg, #2C3E50 0%, #B8860B 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        body {
+            background-color: #1a1a2e;
+            color: white;
+            line-height: 1.6;
+            direction: rtl;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: rgba(26, 26, 46, 0.95);
+            box-shadow: 0 2px 15px rgba(184, 134, 11, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid #B8860B;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: white;
+        }
+        
+        .logo-text span {
+            color: #B8860B;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 25px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: #B8860B;
+        }
+        
+        .language-switcher {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            z-index: 1001;
+        }
+        
+        .lang-btn {
+            background: rgba(44, 62, 80, 0.7);
+            color: white;
+            border: 1px solid #B8860B;
+            padding: 5px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .lang-btn:hover {
+            background: #B8860B;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            align-items: center;
+        }
+        
+        .btn {
+            padding: 10px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background: #B8860B;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #8B6914;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(184, 134, 11, 0.4);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: #B8860B;
+            border: 2px solid #B8860B;
+            margin-left: 15px;
+        }
+        
+        .btn-outline:hover {
+            background: #B8860B;
+            color: white;
+        }
+        
+        .hero {
+            padding: 100px 0;
+            background: linear-gradient(rgba(26, 26, 46, 0.9), rgba(44, 62, 80, 0.9)), url('https://images.unsplash.com/photo-1633158829585-23ba8f7c8caf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .hero-text {
+            flex: 1;
+            max-width: 600px;
+        }
+        
+        .hero-text h1 {
+            font-size: 3.2rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            color: white;
+        }
+        
+        .hero-text .highlight {
+            color: #B8860B;
+            text-shadow: 0 0 10px rgba(184, 134, 11, 0.5);
+        }
+        
+        .hero-text p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #d1d5db;
+        }
+        
+        .creator-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(184, 134, 11, 0.2);
+            color: #B8860B;
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            border: 1px solid rgba(184, 134, 11, 0.3);
+        }
+        
+        .creator-badge i {
+            margin-right: 8px;
+        }
+        
+        .hero-image {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+        
+        .hero-image img {
+            max-width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            border: 2px solid #B8860B;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 50px;
+            background: rgba(44, 62, 80, 0.7);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid #2C3E50;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item h3 {
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+            color: #B8860B;
+        }
+        
+        .stat-item p {
+            font-size: 1.1rem;
+            color: #d1d5db;
+        }
+        
+        .bot-info {
+            padding: 100px 0;
+            background: #1a1a2e;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2:after {
+            content: '';
+            position: absolute;
+            width: 70px;
+            height: 4px;
+            background: var(--gradient);
+            bottom: -10px;
+            right: 50%;
+            transform: translateX(50%);
+            border-radius: 2px;
+        }
+        
+        .section-title p {
+            font-size: 1.2rem;
+            color: #d1d5db;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .info-card {
+            background: #2C3E50;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+            border-right: 5px solid #B8860B;
+            border: 1px solid #34495E;
+        }
+        
+        .info-card:hover {
+            transform: translateY(-10px);
+            border-color: #B8860B;
+            box-shadow: 0 10px 30px rgba(184, 134, 11, 0.2);
+        }
+        
+        .info-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: white;
+            display: flex;
+            align-items: center;
+        }
+        
+        .info-card h3 i {
+            margin-right: 10px;
+            color: #B8860B;
+        }
+        
+        .features-list {
+            list-style: none;
+            margin-top: 20px;
+        }
+        
+        .features-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #34495E;
+            display: flex;
+            align-items: center;
+            color: #d1d5db;
+        }
+        
+        .features-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .features-list li i {
+            color: #B8860B;
+            margin-right: 10px;
+        }
+        
+        .bots-section {
+            padding: 100px 0;
+            background: #1a1a2e;
+        }
+        
+        .bots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .bot-card {
+            background: #2C3E50;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            border: 1px solid #34495E;
+            position: relative;
+        }
+        
+        .bot-card:hover {
+            transform: translateY(-10px);
+            border-color: #B8860B;
+            box-shadow: 0 15px 30px rgba(184, 134, 11, 0.2);
+        }
+        
+        .bot-card.popular {
+            border: 2px solid #B8860B;
+            transform: scale(1.05);
+        }
+        
+        .bot-card.popular:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: -15px;
+            right: 50%;
+            transform: translateX(50%);
+            background: #B8860B;
+            color: white;
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .bot-icon {
+            font-size: 2.5rem;
+            color: #B8860B;
+            margin-bottom: 20px;
+        }
+        
+        .bot-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        .bot-price {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #B8860B;
+            margin: 20px 0;
+        }
+        
+        .bot-features {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+        
+        .bot-features li {
+            padding: 8px 0;
+            color: #d1d5db;
+            border-bottom: 1px solid #34495E;
+        }
+        
+        .bot-features li:last-child {
+            border-bottom: none;
+        }
+        
+        .purchase {
+            padding: 100px 0;
+            background: #1a1a2e;
+        }
+        
+        .purchase-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+            align-items: center;
+        }
+        
+        .purchase-info {
+            background: #2C3E50;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid #34495E;
+        }
+        
+        .price-tag {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #B8860B;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(184, 134, 11, 0.3);
+        }
+        
+        .price-note {
+            color: #d1d5db;
+            margin-bottom: 30px;
+        }
+        
+        .purchase-features {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+        
+        .purchase-features li {
+            padding: 12px 0;
+            border-bottom: 1px solid #34495E;
+            display: flex;
+            align-items: center;
+            color: #d1d5db;
+        }
+        
+        .purchase-features li:last-child {
+            border-bottom: none;
+        }
+        
+        .purchase-features li i {
+            color: #B8860B;
+            margin-right: 10px;
+        }
+        
+        .purchase-form {
+            background: #2C3E50;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 2px solid #B8860B;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            background: #1a1a2e;
+            border: 1px solid #34495E;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.3s;
+            color: white;
+        }
+        
+        .form-control:focus {
+            border-color: #B8860B;
+            outline: none;
+        }
+        
+        .support {
+            padding: 100px 0;
+            background: #1a1a2e;
+        }
+        
+        .support-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+        }
+        
+        .support-item {
+            text-align: center;
+            padding: 40px 30px;
+            background: #2C3E50;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+            border: 1px solid #34495E;
+        }
+        
+        .support-item:hover {
+            transform: translateY(-10px);
+            border-color: #B8860B;
+        }
+        
+        .support-icon {
+            font-size: 3rem;
+            color: #B8860B;
+            margin-bottom: 20px;
+        }
+        
+        .support-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        .support-item p {
+            color: #d1d5db;
+        }
+        
+        .contact-section {
+            padding: 100px 0;
+            background: #1a1a2e;
+        }
+        
+        footer {
+            background: #1a1a2e;
+            color: white;
+            padding: 70px 0 30px;
+            border-top: 1px solid #34495E;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            color: white;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3:after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background: #B8860B;
+            bottom: 0;
+            right: 0;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #B8860B;
+            padding-right: 5px;
+        }
+        
+        .developer-info {
+            background: rgba(184, 134, 11, 0.1);
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border: 1px solid rgba(184, 134, 11, 0.2);
+        }
+        
+        .developer-info h4 {
+            color: #B8860B;
+            margin-bottom: 10px;
+        }
+        
+        .social-icons {
+            display: flex;
+            margin-top: 20px;
+        }
+        
+        .social-icons a {
+            width: 40px;
+            height: 40px;
+            background: #2C3E50;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            transition: all 0.3s;
+            border: 1px solid #34495E;
+        }
+        
+        .social-icons a:hover {
+            background: #B8860B;
+            transform: translateY(-5px);
+            border-color: #B8860B;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #34495E;
+            color: #B8860B;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 992px) {
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .hero-text {
+                margin-bottom: 50px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .purchase-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .bot-card.popular {
+                transform: scale(1);
+            }
+            
+            .bot-card.popular:hover {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+            }
+            
+            .bots-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="language-switcher">
+        <button class="lang-btn" id="langToggle">EN</button>
+    </div>
+
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <div class="logo-text">Phoenix <span>Trader</span></div>
+                </div>
+                
+                <ul class="nav-links">
+                    <li><a href="#home">الرئيسية</a></li>
+                    <li><a href="#about">معلومات البوتات</a></li>
+                    <li><a href="#bots">البوتات</a></li>
+                    <li><a href="#purchase">الشراء</a></li>
+                    <li><a href="#contact">تواصل</a></li>
+                </ul>
+                
+                <div class="nav-buttons">
+                    <button class="btn btn-outline" onclick="scrollToSection('contact')">تواصل معي</button>
+                    <button class="btn btn-primary" onclick="scrollToSection('bots')">اشتري الآن</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <div class="creator-badge">
+                        <i class="fas fa-code"></i>
+                        <span>مطور البوتات: مجدي</span>
+                    </div>
+                    <h1>بوتات <span class="highlight">Phoenix Trader</span> للتداول الذكي</h1>
+                    <p>أنا مجدي، مطور ومتداول محترف منذ 8 سنوات. طورت هذه البوتات الذكية التي تحقق أرباحاً غير عادية في الأسواق المالية. كل بوت مصمم لاستراتيجية مختلفة ومستويات مخاطرة متنوعة.</p>
+                    <button class="btn btn-primary" style="padding: 15px 35px; font-size: 1.1rem;" onclick="scrollToSection('bots')">
+                        اشترِ البوت الأنسب لك <i class="fas fa-shopping-cart"></i>
+                    </button>
+                </div>
+                
+                <div class="hero-image">
+                    <img src="https://images.unsplash.com/photo-1633158829585-23ba8f7c8caf?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="بوتات التداول Phoenix Trader">
+                </div>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <h3>+50%</h3>
+                    <p>متوسط العائد الشهري</p>
+                </div>
+                <div class="stat-item">
+                    <h3>98%</h3>
+                    <p>دقة الإشارات</p>
+                </div>
+                <div class="stat-item">
+                    <h3>8</h3>
+                    <p>خبرة في التداول</p>
+                </div>
+                <div class="stat-item">
+                    <h3>5</h3>
+                    <p>بوتات متخصصة</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bot-info" id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>معلومات البوتات</h2>
+                <p>طورت 5 بوتات متخصصة لكل منها استراتيجية مختلفة تناسب جميع أنواع المتداولين</p>
+            </div>
+            
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3><i class="fas fa-brain"></i>ذكاء اصطناعي متقدم</h3>
+                    <p>كل البوتات تستخدم خوارزميات ذكاء اصطناعي متطورة لتحليل السوق في الوقت الحقيقي وتوقع اتجاهاته بدقة عالية.</p>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> تحليل فني متقدم لـ 50 مؤشر</li>
+                        <li><i class="fas fa-check"></i> نظام إدارة مخاطر ذكي</li>
+                        <li><i class="fas fa-check"></i> تنفيذ أوامر في أجزاء من الثانية</li>
+                        <li><i class="fas fa-check"></i> مراقبة 24 ساعة للأسواق العالمية</li>
+                    </ul>
+                </div>
+                
+                <div class="info-card">
+                    <h3><i class="fas fa-trophy"></i>إنجازات البوتات</h3>
+                    <p>خلال فترة اختبار البوتات، حققت نتائج ممتازة أثبتت كفاءتها وقدرتها على تحقيق أرباح مستمرة.</p>
+                    <ul class="features-list">
+                        <li><i class="fas fa-chart-line"></i> متوسط ربح شهري 50% لأفضل بوت</li>
+                        <li><i class="fas fa-percentage"></i> نسبة نجاح 98% في الصفقات</li>
+                        <li><i class="fas fa-shield-alt"></i> أقصى خسارة يومية 1.5% فقط</li>
+                        <li><i class="fas fa-money-bill-wave"></i> عامل ربح (Profit Factor) 4.2</li>
+                    </ul>
+                </div>
+                
+                <div class="info-card">
+                    <h3><i class="fas fa-user-tie"></i>عن المطور</h3>
+                    <p>أنا مجدي، مطور ومتداول محترف منذ 8 سنوات. متخصص في برمجة أنظمة التداول الآلي وتحليل الأسواق المالية.</p>
+                    <ul class="features-list">
+                        <li><i class="fas fa-award"></i> 8 سنوات خبرة في التداول</li>
+                        <li><i class="fas fa-code"></i> 5 سنوات في برمجة البوتات</li>
+                        <li><i class="fas fa-graduation-cap"></i> مدرب معتمد في التداول الآلي</li>
+                        <li><i class="fas fa-users"></i> +500 متداول يستخدمون بوتاتي</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bots-section" id="bots">
+        <div class="container">
+            <div class="section-title">
+                <h2>البوتات المتاحة</h2>
+                <p>اختر البوت المناسب لميزانيتك وأهدافك الاستثمارية</p>
+            </div>
+            
+            <div class="bots-grid">
+                <div class="bot-card">
+                    <div class="bot-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>بوت المبتدئين</h3>
+                    <p>أنسب بوت للمبتدئين في التداول</p>
+                    <div class="bot-price">$199</div>
+                    <ul class="bot-features">
+                        <li>معدل ربح شهري: 20-30%</li>
+                        <li>مخاطرة منخفضة</li>
+                        <li>إعدادات سهلة</li>
+                        <li>دعم أساسي</li>
+                    </ul>
+                    <button class="btn btn-outline" onclick="selectBot('بوت المبتدئين', 199)">اختر هذا البوت</button>
+                </div>
+                
+                <div class="bot-card">
+                    <div class="bot-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>بوت المتوسط</h3>
+                    <p>بوت متوازن للمتداولين المتوسطين</p>
+                    <div class="bot-price">$399</div>
+                    <ul class="bot-features">
+                        <li>معدل ربح شهري: 30-40%</li>
+                        <li>مخاطرة متوسطة</li>
+                        <li>أدوات متقدمة</li>
+                        <li>دعم فني</li>
+                    </ul>
+                    <button class="btn btn-outline" onclick="selectBot('بوت المتوسط', 399)">اختر هذا البوت</button>
+                </div>
+                
+                <div class="bot-card popular">
+                    <div class="popular-badge">الأكثر طلباً</div>
+                    <div class="bot-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h3>بوت المحترفين</h3>
+                    <p>البوت الأفضل للمتداولين المحترفين</p>
+                    <div class="bot-price">$699</div>
+                    <ul class="bot-features">
+                        <li>معدل ربح شهري: 40-50%</li>
+                        <li>إدارة مخاطر ذكية</li>
+                        <li>جميع المؤشرات</li>
+                        <li>دعم ممتاز</li>
+                    </ul>
+                    <button class="btn btn-primary" onclick="selectBot('بوت المحترفين', 699)">اختر هذا البوت</button>
+                </div>
+                
+                <div class="bot-card">
+                    <div class="bot-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>بوت السريع</h3>
+                    <p>بوت التداول السريع والمضاربة</p>
+                    <div class="bot-price">$899</div>
+                    <ul class="bot-features">
+                        <li>معدل ربح شهري: 45-55%</li>
+                        <li>تنفيذ فائق السرعة</li>
+                        <li>مضاربة يومية</li>
+                        <li>دعم 24/7</li>
+                    </ul>
+                    <button class="btn btn-outline" onclick="selectBot('بوت السريع', 899)">اختر هذا البوت</button>
+                </div>
+                
+                <div class="bot-card">
+                    <div class="bot-icon">
+                        <i class="fas fa-infinity"></i>
+                    </div>
+                    <h3>بوت المتكامل</h3>
+                    <p>البوت الشامل بكل الميزات المتقدمة</p>
+                    <div class="bot-price">$1,299</div>
+                    <ul class="bot-features">
+                        <li>معدل ربح شهري: 50-60%</li>
+                        <li>جميع الاستراتيجيات</li>
+                        <li>تحليل متعمق</li>
+                        <li>دعم شخصي من مجدي</li>
+                    </ul>
+                    <button class="btn btn-outline" onclick="selectBot('بوت المتكامل', 1299)">اختر هذا البوت</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="purchase" id="purchase">
+        <div class="container">
+            <div class="section-title">
+                <h2>أكمل عملية الشراء</h2>
+                <p>املأ البيانات لإكمال شراء البوت المختار</p>
+            </div>
+            
+            <div class="purchase-container">
+                <div class="purchase-info">
+                    <h2 id="selected-bot-name">بوت المحترفين</h2>
+                    <div class="price-tag" id="selected-bot-price">$699</div>
+                    <p class="price-note">سعر لمرة واحدة - ترخيص دائم</p>
+                    
+                    <ul class="purchase-features">
+                        <li><i class="fas fa-check"></i> شفرة مصدرية كاملة (Full Source Code)</li>
+                        <li><i class="fas fa-check"></i> ترخيص دائم للاستخدام الشخصي</li>
+                        <li><i class="fas fa-check"></i> دعم فني لمدة سنة كاملة</li>
+                        <li><i class="fas fa-check"></i> تحديثات مجانية لمدة سنة</li>
+                        <li><i class="fas fa-check"></i> وثائق تفصيلية باللغة العربية</li>
+                        <li><i class="fas fa-check"></i> فيديوهات تعليمية للتثبيت والاستخدام</li>
+                        <li><i class="fas fa-check"></i> جلسة تدريبية شخصية (ساعة واحدة)</li>
+                    </ul>
+                    
+                    <div style="margin-top: 30px; padding: 20px; background: rgba(184, 134, 11, 0.1); border-radius: 10px; border: 1px solid rgba(184, 134, 11, 0.3);">
+                        <h4 style="color: #B8860B; margin-bottom: 10px;">طريقة الدفع:</h4>
+                        <p style="color: #d1d5db;">بعد إرسال الطلب، سأرسل لك تفاصيل الحساب البنكي للتحويل. سيتم إرسال البوت خلال 24 ساعة من تأكيد التحويل.</p>
+                    </div>
+                </div>
+                
+                <div class="purchase-form">
+                    <h3>طلب شراء البوت</h3>
+                    <p style="margin-bottom: 25px; color: #d1d5db;">املأ النموذج وسأتصل بك خلال 24 ساعة</p>
+                    
+                    <form id="purchaseForm">
+                        <div class="form-group">
+                            <label for="name">الاسم الكامل</label>
+                            <input type="text" id="name" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">البريد الإلكتروني</label>
+                            <input type="email" id="email" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">رقم الهاتف / واتساب</label>
+                            <input type="tel" id="phone" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="bot-select">البوت المختار</label>
+                            <select id="bot-select" class="form-control" onchange="updateSelectedBot()">
+                                <option value="بوت المبتدئين - $199">بوت المبتدئين - $199</option>
+                                <option value="بوت المتوسط - $399">بوت المتوسط - $399</option>
+                                <option value="بوت المحترفين - $699" selected>بوت المحترفين - $699</option>
+                                <option value="بوت السريع - $899">بوت السريع - $899</option>
+                                <option value="بوت المتكامل - $1,299">بوت المتكامل - $1,299</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">ملاحظات إضافية (اختياري)</label>
+                            <textarea id="message" class="form-control" rows="4" placeholder="أخبرني عن أي متطلبات خاصة لديك..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 15px;">
+                            <i class="fas fa-paper-plane"></i> أرسل طلب الشراء
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="support" id="support">
+        <div class="container">
+            <div class="section-title">
+                <h2>الدعم والضمانات</h2>
+                <p>أقدم لكم ضمانات كاملة ودعم مستمر بعد الشراء</p>
+            </div>
+            
+            <div class="support-content">
+                <div class="support-item">
+                    <div class="support-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>دعم مباشر من المطور</h3>
+                    <p>سأكون أنا مجدي شخصياً متاحاً لدعمك في أي مشكلة تواجهك مع البوت. دعم مباشر عبر الواتساب والبريد الإلكتروني.</p>
+                </div>
+                
+                <div class="support-item">
+                    <div class="support-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>ضمان استرداد الأموال</h3>
+                    <p>ضمان استرداد كامل المبلغ خلال 30 يوم إذا لم يعمل البوت كما هو موضح أو إذا لم تحقق نتائج مرضية.</p>
+                </div>
+                
+                <div class="support-item">
+                    <div class="support-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>تحديثات مستمرة</h3>
+                    <p>سأقوم بتحديث البوتات باستمرار لمواكبة تغيرات السوق وتقديم ميزات جديدة مجاناً لمدة سنة كاملة.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>تواصل مع مجدي مباشرة</h2>
+                <p>لديك استفسار أو تحتاج مساعدة؟ تواصل معي مباشرة</p>
+            </div>
+            
+            <div class="support-content">
+                <div class="support-item">
+                    <div class="support-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>البريد الإلكتروني</h3>
+                    <p>magdyturky24@gmail.com</p>
+                    <button class="btn btn-outline" style="margin-top: 15px;" onclick="copyEmail()">انسخ البريد</button>
+                </div>
+                
+                <div class="support-item">
+                    <div class="support-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <h3>الواتساب</h3>
+                    <button class="btn btn-outline" style="margin-top: 15px; padding: 12px 25px;" onclick="openWhatsApp()">
+                        <i class="fab fa-whatsapp"></i> تواصل معي على واتساب
+                    </button>
+                </div>
+                
+                <div class="support-item">
+                    <div class="support-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <h3>الهاتف</h3>
+                    <button class="btn btn-outline" style="margin-top: 15px; padding: 12px 25px;" onclick="contactViaTelegram()">
+                        <i class="fab fa-telegram"></i> تواصل عبر تلجرام
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Phoenix Trader</h3>
+                    <p>بوتات التداول الذكية الأولى عربيًا، مصممة لمساعدتك في تحقيق أرباح ثابتة من الأسواق المالية باستخدام أحدث تقنيات الذكاء الاصطناعي.</p>
+                    
+                    <div class="developer-info">
+                        <h4>المطور: مجدي</h4>
+                        <p>مطور ومتداول محترف منذ 8 سنوات في برمجة حلول التداول الآلي وتحليل الأسواق المالية.</p>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>روابط سريعة</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home" onclick="scrollToSection('home')">الرئيسية</a></li>
+                        <li><a href="#about" onclick="scrollToSection('about')">معلومات البوتات</a></li>
+                        <li><a href="#bots" onclick="scrollToSection('bots')">اختر بوت</a></li>
+                        <li><a href="#purchase" onclick="scrollToSection('purchase')">إكمال الشراء</a></li>
+                        <li><a href="#contact" onclick="scrollToSection('contact')">تواصل معي</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>تابع مجدي</h3>
+                    <p>تابع قنواتي للحصول على نصائح التداول وعروض خاصة.</p>
+                    <div class="social-icons">
+                        <a href="https://www.youtube.com/@magdyturky26" target="_blank" title="يوتيوب">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@tradingbot773" target="_blank" title="تيك توك">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                        <a href="https://t.me/ict_scalper" target="_blank" title="تلجرام">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>جميع الحقوق محفوظة &copy; 2025 Phoenix Trader. بوتات التداول هذه هي نتاج جهودي الشخصية وأبيعها مباشرة للمهتمين.</p>
+                <p style="margin-top: 10px; font-size: 0.8rem;">التداول في الأسواق المالية يحمل مخاطر. past الأداء لا يضمن النتائج المستقبلية.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // تحديد البوت من القائمة
+        function updateSelectedBot() {
+            const select = document.getElementById('bot-select');
+            const selectedOption = select.options[select.selectedIndex];
+            const value = selectedOption.value;
+            const [botName, botPrice] = value.split(' - $');
+            
+            document.getElementById('selected-bot-name').textContent = botName;
+            document.getElementById('selected-bot-price').textContent = '$' + botPrice;
+        }
+        
+        // اختيار البوت من البطاقات
+        function selectBot(botName, botPrice) {
+            document.getElementById('selected-bot-name').textContent = botName;
+            document.getElementById('selected-bot-price').textContent = '$' + botPrice;
+            
+            // تحديث القائمة المنسدلة
+            const select = document.getElementById('bot-select');
+            for (let i = 0; i < select.options.length; i++) {
+                if (select.options[i].value.startsWith(botName)) {
+                    select.selectedIndex = i;
+                    break;
+                }
+            }
+            
+            // التمرير لقسم الشراء
+            scrollToSection('purchase');
+            
+            // عرض رسالة تأكيد
+            alert(`تم اختيار ${botName} بقيمة $${botPrice}`);
+        }
+        
+        // نموذج طلب الشراء
+        document.getElementById('purchaseForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const bot = document.getElementById('bot-select').value;
+            const phone = document.getElementById('phone').value;
+            
+            alert(`شكرًا ${name}! لقد استلمت طلبك لشراء ${bot}. سأتصل بك على الرقم ${phone} لتأكيد الطلب وإرسال تفاصيل التحويل.`);
+            
+            document.getElementById('purchaseForm').reset();
+            document.getElementById('bot-select').selectedIndex = 2; // العودة لبوت المحترفين
+            updateSelectedBot();
+        });
+        
+        // وظيفة التمرير للأقسام
+        function scrollToSection(sectionId) {
+            const targetElement = document.getElementById(sectionId);
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            }
+        }
+        
+        // نسخ البريد الإلكتروني
+        function copyEmail() {
+            const email = "magdyturky24@gmail.com";
+            navigator.clipboard.writeText(email).then(() => {
+                alert("تم نسخ البريد الإلكتروني: " + email);
+            });
+        }
+        
+        // فتح واتساب
+        function openWhatsApp() {
+            window.open('https://wa.me/qr/2IMKI3S6F4AEF1', '_blank');
+        }
+        
+        // تواصل عبر تلجرام
+        function contactViaTelegram() {
+            window.open('https://t.me/ict_scalper', '_blank');
+        }
+        
+        // تأثير التمرير على الهيدر
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.style.boxShadow = '0 5px 20px rgba(184, 134, 11, 0.3)';
+                header.style.backgroundColor = 'rgba(0, 0, 0, 0.6)';
+            } else {
+                header.style.boxShadow = '0 2px 10px rgba(184, 134, 11, 0.2)';
+                header.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
+            }
+        });
+        
+        // تحديد البوت المختار عند التحميل
+        window.addEventListener('load', function() {
+            updateSelectedBot();
+        });
+
+        // نظام الترجمة
+        let isEnglish = false;
+        const langToggle = document.getElementById('langToggle');
+        
+        if (langToggle) {
+            langToggle.addEventListener('click', toggleLanguage);
+        }
+
+        function toggleLanguage() {
+            isEnglish = !isEnglish;
+            const lang = isEnglish ? 'en' : 'ar';
+            
+            // تغيير نص زر اللغة
+            if (langToggle) {
+                langToggle.textContent = isEnglish ? 'AR' : 'EN';
+            }
+            
+            // تغيير اتجاه الصفحة
+            document.documentElement.dir = isEnglish ? 'ltr' : 'rtl';
+            document.documentElement.lang = lang;
+            
+            // بسيطة - تغيير العناصر الرئيسية فقط
+            const navLinks = document.querySelectorAll('.nav-links a');
+            const navButtons = document.querySelectorAll('.nav-buttons .btn');
+            const heroTitle = document.querySelector('.hero-text h1');
+            const heroText = document.querySelector('.hero-text p');
+            
+            if (isEnglish) {
+                // الترجمة إلى الإنجليزية
+                document.title = "Phoenix Trader - Smart Trading Bot";
+                
+                // الروابط التنقل
+                if (navLinks.length >= 5) {
+                    navLinks[0].textContent = "Home";
+                    navLinks[1].textContent = "Bot Info";
+                    navLinks[2].textContent = "Bots";
+                    navLinks[3].textContent = "Purchase";
+                    navLinks[4].textContent = "Contact";
+                }
+                
+                // أزرار التنقل
+                if (navButtons.length >= 2) {
+                    navButtons[0].textContent = "Contact Me";
+                    navButtons[1].textContent = "Buy Now";
+                }
+                
+                // نص الهيرو
+                if (heroTitle) {
+                    heroTitle.innerHTML = '<span class="highlight">Phoenix Trader</span> Trading Bots';
+                }
+                
+                if (heroText) {
+                    heroText.textContent = "I am Magdy, a professional developer and trader for 8 years. I developed these smart bots that achieve extraordinary profits in financial markets. Each bot is designed for different strategies and risk levels.";
+                }
+            } else {
+                // العودة للعربية
+                document.title = "Phoenix Trader - Smart Trading Bot";
+                
+                // الروابط التنقل
+                if (navLinks.length >= 5) {
+                    navLinks[0].textContent = "الرئيسية";
+                    navLinks[1].textContent = "معلومات البوتات";
+                    navLinks[2].textContent = "البوتات";
+                    navLinks[3].textContent = "الشراء";
+                    navLinks[4].textContent = "تواصل";
+                }
+                
+                // أزرار التنقل
+                if (navButtons.length >= 2) {
+                    navButtons[0].textContent = "تواصل معي";
+                    navButtons[1].textContent = "اشتري الآن";
+                }
+                
+                // نص الهيرو
+                if (heroTitle) {
+                    heroTitle.innerHTML = 'بوتات <span class="highlight">Phoenix Trader</span> للتداول الذكي';
+                }
+                
+                if (heroText) {
+                    heroText.textContent = "أنا مجدي، مطور ومتداول محترف منذ 8 سنوات. طورت هذه البوتات الذكية التي تحقق أرباحاً غير عادية في الأسواق المالية. كل بوت مصمم لاستراتيجية مختلفة ومستويات مخاطرة متنوعة.";
+                }
+            }
+        }
+    </script>
+</body>
+</html>
